@@ -65,6 +65,17 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             if let description = alertCtrl.textFields![1].text {
                 descriptionI = description
             }
+            
+            /*
+             Solution 2
+             
+             let textFields = alertCtrl.textFields!
+             let itemName = textFields[0].text!
+             let itemDescription = textFields[1].text!
+             let itemLocation = textFields[2].text!
+             
+             */
+            
             self.itemArray.append(ToDoItem(itemName: nameI, itemDesc: descriptionI, itemPlace: locationI, completed: false))
             self.tableView.reloadData()
         })
@@ -85,6 +96,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         present(alertCtrl, animated: true, completion: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toDetail" {
+            let selectedIndexPath = tableView.indexPathForSelectedRow!
+            let itemToSent = self.itemArray[selectedIndexPath.row]
+            let destinationVC = segue.destination as! DetailViewController
+            destinationVC.item = itemToSent
+        }
+    }
     
 }
 
